@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LabLoginSignUp</string>
+    <string-array name="roles">
+        <item>Seleccione su rol</item>
+        <item>Ciudadano</item>
+        <item>Planeador</item>
+        <item>Decisor</item>
+    </string-array>
+</resources>
