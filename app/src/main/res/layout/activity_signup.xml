@@ -136,7 +136,7 @@
         <Spinner
             android:id="@+id/spinnerRol"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:entries="@array/roles"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,7 +201,7 @@
         android:textSize="22sp"
         android:textColor="#FFFFFF"
         android:layout_marginTop="40dp"
-        android:background="@drawable/button_rounded"/>
+        android:backgroundTint="@color/colorAccent" />
 
 
 </LinearLayout>

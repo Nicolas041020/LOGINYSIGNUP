@@ -1,6 +1,7 @@
 package co.edu.unipiloto.labloginsignup;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -46,7 +47,8 @@ public class SignUp extends AppCompatActivity {
         btnRegistrar.setOnClickListener(v -> {
             if (validarFecha()) {
                 Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                // TODO: Guardar datos en base de datos
+                Intent intent = new Intent(SignUp.this, FirstPage.class);
+                startActivity(intent);
             }
         });
     }
@@ -97,7 +99,7 @@ public class SignUp extends AppCompatActivity {
             List<Address> direcciones = geocoder.getFromLocation(lat, lon, 1);
             if (!direcciones.isEmpty()) {
                 Address direccion = direcciones.get(0);
-                etDireccion.setText(direccion.getAddressLine(0)); // Mostrar la dirección
+                etDireccion.setText(direccion.getAddressLine(0));
             }
         } catch (IOException e) {
             e.printStackTrace();
