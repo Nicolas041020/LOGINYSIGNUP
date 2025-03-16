@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter your email"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:textSize="20sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter your password"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textSize="20sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:hint="Confirm Your password"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textSize="20sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -154,14 +154,11 @@
             android:clickable="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-   <!-- <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
--->
 
 
 
     <RadioGroup
+        android:id="@+id/radio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

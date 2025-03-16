@@ -6,9 +6,12 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.Manifest;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,30 +31,79 @@ import java.util.Locale;
 public class SignUp extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
-    private EditText etDireccion;
+    private EditText etDireccion,contra,confirm_passw,mail,nombre,username;
     private Button btnRegistrar;
     private TextInputEditText fechaNacimientoInput;
+    private Spinner spinner;
+
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        nombre = findViewById(R.id.fullname);
+        username = findViewById(R.id.username);
         fechaNacimientoInput = findViewById(R.id.FechaNacimiento);
         etDireccion = findViewById(R.id.address);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         btnRegistrar = findViewById(R.id.register);
+        contra = findViewById(R.id.passw);
+        confirm_passw = findViewById(R.id.confir_passw);
+        mail = findViewById(R.id.email);
+        spinner=findViewById(R.id.spinnerRol);
+        radioGroup = findViewById(R.id.radio);
+
 
         fechaNacimientoInput.setOnClickListener(v -> mostrarDatePicker());
 
+
+
         obtenerUbi();
         btnRegistrar.setOnClickListener(v -> {
-            if (validarFecha()) {
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+        if (validarAll()){
+            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignUp.this, FirstPage.class);
                 startActivity(intent);
-            }
+        }
         });
     }
+
+    public boolean validarAll(){
+
+        boolean nom,use,mai,spi;
+        String mailStr = mail.getText().toString();
+        nom = nombre.getText().toString().isEmpty();
+        use = username.getText().toString().isEmpty();
+        mai = !Patterns.EMAIL_ADDRESS.matcher(mailStr).matches();
+        spi = spinner.getSelectedItem().toString().equals("Seleccione su rol");
+        if (nom) nombre.setError("DEBE LLENAR ESTE CAMPO");
+        if (use) username.setError("DEBE LLENAR ESTE CAMPO");
+        if (mai) mail.setError("Un correo valido debe contener nombre, dominio y no contener caracteres invalidos");
+        if(radioGroup.getCheckedRadioButtonId() == -1 || spi) Toast.makeText(this,"DEBE SELECCIONAR UNA OPCION", Toast.LENGTH_SHORT).show();
+        if (confirmPassw()==0){
+            Toast.makeText(this, "Las contraseñas deben coincidir", Toast.LENGTH_SHORT).show();
+        } else if (confirmPassw()==2) {
+            contra.setError("DEBE LLENAR ESTE CAMPO");
+            confirm_passw.setError("DEBE LLENAR ESTE CAMPO");
+        }else return validarFecha() && !nom && !use && !mai && !spi && confirmPassw() == 1 && radioGroup.getCheckedRadioButtonId() != -1;
+        return false;
+    }
+    public int confirmPassw(){
+        String contraStr = contra.getText().toString();
+        String confPasswStr = confirm_passw.getText().toString();
+        if (!(contraStr.isEmpty() && confPasswStr.isEmpty())){
+             if (contraStr.equals(confPasswStr)) {
+                 return 1;
+             }else{
+                 return 0;
+             }
+        }
+        return 2;
+    }
+
+
     private void mostrarDatePicker() {
         final Calendar calendario = Calendar.getInstance();
         int anio = calendario.get(Calendar.YEAR);
