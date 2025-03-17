@@ -59,9 +59,18 @@ public class LogIn extends AppCompatActivity {
         }
 
         if(loginIsValid) {
-            Toast.makeText(this, "Lleno todos los campos correctamente", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(LogIn.this,FirstPage.class);
-            startActivity(intent);
+            //Toast.makeText(this, "Lleno todos los campos correctamente", Toast.LENGTH_SHORT).show();
+            SharedPreferences preferences = getSharedPreferences("SaveUser", MODE_PRIVATE);
+            String username = preferences.getString("Username","");
+            String password = preferences.getString("Password","");
+            if(username.isEmpty() && password.isEmpty()){
+                Toast.makeText(this, "No se guardó la información", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Hola " + username + " :D", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LogIn.this, FirstPage.class);
+                startActivity(intent);
+            }
         }
         else Toast.makeText(this, "Pero llene bien todos los campos", Toast.LENGTH_SHORT).show();
     }

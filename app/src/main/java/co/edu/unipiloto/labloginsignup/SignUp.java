@@ -18,6 +18,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import android.content.SharedPreferences;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -37,6 +38,7 @@ public class SignUp extends AppCompatActivity {
     private Spinner spinner;
 
     private RadioGroup radioGroup;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class SignUp extends AppCompatActivity {
         mail = findViewById(R.id.email);
         spinner=findViewById(R.id.spinnerRol);
         radioGroup = findViewById(R.id.radio);
-
+        sharedPreferences = getSharedPreferences("SaveUser", MODE_PRIVATE);
 
         fechaNacimientoInput.setOnClickListener(v -> mostrarDatePicker());
 
@@ -64,8 +66,13 @@ public class SignUp extends AppCompatActivity {
         btnRegistrar.setOnClickListener(v -> {
         if (validarAll()){
             Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignUp.this, FirstPage.class);
-                startActivity(intent);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("Username", username.getText().toString());
+            editor.putString("Password", contra.getText().toString());
+            editor.apply();
+
+            Intent intent = new Intent(SignUp.this, FirstPage.class);
+            startActivity(intent);
         }
         });
     }
